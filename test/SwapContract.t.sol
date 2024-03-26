@@ -5,46 +5,32 @@ pragma solidity ^0.8.13;
 import {Test, console} from "forge-std/Test.sol";
 import "../contracts/SwapContract.sol";
 import "../contracts/ERC20.sol";
+import "../contracts/interface/ISwapContract.sol";
+import "../contracts/interface/IERC20.sol";
 
 contract SwapContractTest is Test {
 
-    SwapContract swapContract;
-    ERC20 dai;
-    ERC20 link;
-    ERC20 eth;
+    ISwapContract swapContract;
+    IERC20 dai;
+    IERC20 link;
+    IERC20 eth;
 
-    address AddrEth = address(0xa);
-    address AddrDai = address(0xb);
-    address AddrLink = address(0xc);
+    address AddrEth = address(0x477b144FbB1cE15554927587f18a27b241126FBC);    
+    address AddrDai = address(0xe902aC65D282829C7a0c42CAe165D3eE33482b9f);
+    address AddrLink = address(0x6a37809BdFC0aC7b73355E82c1284333159bc5F0);
 
 
     function setUp() public {
-        dai = new ERC20("DAI", "D", 18);
-        link = new ERC20("link", "l", 18);
-        eth = new ERC20("eth", "e", 18);
-        swapContract = new SwapContract(address(dai), address(eth), address(link));
-        
-
-
-        AddrEth = mkaddr("AddrEth");
-        AddrDai = mkaddr("AddrDai");
-        AddrLink = mkaddr("AddrLink");
-
-        eth.mint(AddrEth, 1000000);
-        dai.mint(AddrDai, 1000000);
-        link.mint(AddrLink, 1000000);
-        
-    }
-
-    function testBalances() public view {
-        vm.assertEq(eth.balanceOf(AddrEth), 1000000);
-        vm.assertEq(dai.balanceOf(AddrDai), 1000000);
-        vm.assertEq(link.balanceOf(AddrLink), 1000000);
+        dai =  IERC20(0xFF34B3d4Aee8ddCd6F9AFFFB6Fe49bD371b8a357);
+        link =  IERC20(0xf8Fb3713D459D7C1018BD0A49D19b4C44290EBE5);
+        eth =  IERC20(0xb16F35c0Ae2912430DAc15764477E179D9B9EbEa);
+        swapContract = ISwapContract(0x2106a21bc6CF3aA7ea04ea810AfB2041342BcB48);
     }
 
     function testSwapEthDai() public {
         switchSigner(AddrDai);
-        dai.transfer(address(swapContract), 900000);
+        uint256 balance= dai.balanceOf(AddrDai);
+        dai.transfer(address(swapContract), balance);
 
         switchSigner(AddrEth);
         uint balanceOfDaiBeforeSwap = dai.balanceOf(AddrEth);
@@ -60,12 +46,13 @@ contract SwapContractTest is Test {
 
      function testSwapEthLink() public {
         switchSigner(AddrLink);
-        link.transfer(address(swapContract), 900000);
+        uint256 balance= link.balanceOf(AddrLink);
+        link.transfer(address(swapContract), balance);
 
         switchSigner(AddrEth);
         uint balanceOfLinkBeforeSwap = link.balanceOf(AddrEth);
         eth.approve(address(swapContract), 1);
-
+        console.log("balanceOfLinkBeforeSwap", balanceOfLinkBeforeSwap);
         swapContract.swapEthLink(1);
 
         uint balanceOflinkAfterSwap = link.balanceOf(AddrEth);
@@ -76,7 +63,8 @@ contract SwapContractTest is Test {
 
      function testSwapLinkDai() public {
         switchSigner(AddrDai);
-        dai.transfer(address(swapContract), 900000);
+        uint256 balance= dai.balanceOf(AddrDai);
+        dai.transfer(address(swapContract), balance);
 
         switchSigner(AddrLink);
         uint balanceOfDaiBeforeSwap = dai.balanceOf(AddrLink);
@@ -91,8 +79,10 @@ contract SwapContractTest is Test {
     }
 
      function testSwapLinkEth() public {
+        
         switchSigner(AddrEth);
-        eth.transfer(address(swapContract), 900000);
+        uint256 balance= eth.balanceOf(AddrEth);
+        eth.transfer(address(swapContract), balance);
 
         switchSigner(AddrLink);
         uint balanceOfLinkBeforeSwap = eth.balanceOf(AddrLink);
@@ -108,7 +98,8 @@ contract SwapContractTest is Test {
 
      function testSwapDaiLink() public {
         switchSigner(AddrLink);
-        link.transfer(address(swapContract), 900000);
+        uint256 balance= link.balanceOf(AddrLink);
+        link.transfer(address(swapContract), balance);
 
         switchSigner(AddrDai);
         uint balanceOfLinkBeforeSwap = link.balanceOf(AddrDai);
@@ -124,7 +115,8 @@ contract SwapContractTest is Test {
 
      function testSwapDaiEth() public {
         switchSigner(AddrEth);
-        eth.transfer(address(swapContract), 900000);
+        uint256 balance= eth.balanceOf(AddrEth);
+        eth.transfer(address(swapContract), balance);
 
         switchSigner(AddrDai);
         uint balanceOfEthBeforeSwap = eth.balanceOf(AddrDai);
@@ -132,7 +124,7 @@ contract SwapContractTest is Test {
 
         swapContract.swapDaiEth(1);
 
-        uint balanceOfEthAfterSwap = eth.balanceOf(AddrEth);
+        uint balanceOfEthAfterSwap = eth.balanceOf(AddrDai);
 
         assertGt(balanceOfEthAfterSwap, balanceOfEthBeforeSwap);
 
