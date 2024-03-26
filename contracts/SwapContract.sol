@@ -21,11 +21,11 @@ contract SwapContract {
     // Constructor to set the ERC-20 tokens being swapped 
     constructor() {
 
-        dai = IERC20(0x3e622317f8C93f7328350cF0B56d9eD4C620C5d6);
+        dai = IERC20(0xFF34B3d4Aee8ddCd6F9AFFFB6Fe49bD371b8a357);
 
-        weth = IERC20(0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9);
+        weth = IERC20(0xb16F35c0Ae2912430DAc15764477E179D9B9EbEa);
 
-        link = IERC20(0x779877A7B0D9E8603169DdbD7836e478b4624789);
+        link = IERC20(0xf8Fb3713D459D7C1018BD0A49D19b4C44290EBE5);
 
         eth_usd = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
 
@@ -35,26 +35,7 @@ contract SwapContract {
 
     }
 
-    // Function to swap tokens A for tokens B
-    // function swapEthDai(uint256 _amountA) external {
-    //     require(msg.sender != address(0), "address zero detected");
-
-    //     require(_amountA > 0 , "Can't exchange zero amount");
-
-    //     require(weth.balanceOf(msg.sender) >= _amountA, "Insufficient Balance");
-
-    //     uint _amountB = 50;
-        
-
-    //     require(dai.balanceOf(address(this)) >= _amountB, "Not enough tokenB");
-
-    //     weth.transferFrom(msg.sender, address(this), _amountA);
-
-    //     dai.transfer(msg.sender , _amountB);
-
-    //     emit SwapSuccessful(msg.sender, _amountA , _amountB);
-
-    // }
+ 
     function swapEthDai(uint256 _amountA) external {
         require(msg.sender != address(0), "address zero detected");
 
@@ -75,25 +56,6 @@ contract SwapContract {
 
     }
 
-    //  function swapEthLink(uint256 _amountA) external {
-    //     require(msg.sender != address(0), "address zero detected");
-
-    //     require(_amountA > 0 , "Can't exchange zero amount");
-
-    //     require(weth.balanceOf(msg.sender) >= _amountA, "Insufficient Balance");
-
-    //     uint _amountB = 50;
-        
-    //     require(link.balanceOf(address(this)) >= _amountB, "Not enough tokenB");
-
-    //     weth.transferFrom(msg.sender, address(this), _amountA);
-
-    //     link.transfer(msg.sender , _amountB);
-
-    //     emit SwapSuccessful(msg.sender, _amountA , _amountB);
-
-    // }
-
       function swapEthLink(uint256 _amountA) external {
         require(msg.sender != address(0), "address zero detected");
 
@@ -112,28 +74,6 @@ contract SwapContract {
         emit SwapSuccessful(msg.sender, _amountA , _amountB);
 
     }
-
-  
-
-    //    function swapLinkDai(uint256 _amountA) external {
-    //         require(msg.sender != address(0), "address zero detected");
-
-    //         require(_amountA > 0 , "Can't exchange zero amount");
-
-    //         require(link.balanceOf(msg.sender) >= _amountA, "Insufficient Balance");
-
-    //         uint _amountB = 50;
-            
-    //         require(dai.balanceOf(address(this)) >= _amountB, "Not enough tokenB");
-
-    //         link.transferFrom(msg.sender, address(this), _amountA);
-
-    //         dai.transfer(msg.sender , _amountB);
-
-    //     emit SwapSuccessful(msg.sender, _amountA , _amountB);
-
-
-    // }
 
     function swapLinkDai(uint256 _amountA) external {
             require(msg.sender != address(0), "address zero detected");
@@ -156,26 +96,6 @@ contract SwapContract {
 
     }
 
-    // function swapLinkEth(uint256 _amountA) external {
-    //     require(msg.sender != address(0), "address zero detected");
-
-    //     require(_amountA > 0 , "Can't exchange zero amount");
-
-    //     require(link.balanceOf(msg.sender) >= _amountA, "Insufficient Balance");
-
-    //     uint _amountB = 50;
-        
-
-    //     require(weth.balanceOf(address(this)) >= _amountB, "Not enough tokenB");
-
-    //     link.transferFrom(msg.sender, address(this), _amountA);
-
-    //     weth.transfer(msg.sender , _amountB);
-
-    //     emit SwapSuccessful(msg.sender, _amountA , _amountB);
-
-    // }
-
     function swapLinkEth(uint256 _amountA) external {
         require(msg.sender != address(0), "address zero detected");
 
@@ -195,26 +115,7 @@ contract SwapContract {
         emit SwapSuccessful(msg.sender, _amountA , _amountB);
 
     }
-
-    //  function swapDaiLink(uint256 _amountA) external {
-    //     require(msg.sender != address(0), "address zero detected");
-
-    //     require(_amountA > 0 , "Can't exchange zero amount");
-
-    //     require(dai.balanceOf(msg.sender) >= _amountA, "Insufficient Balance");
-
-    //     uint _amountB = 50;
-        
-
-    //     require(link.balanceOf(address(this)) >= _amountB, "Not enough tokenB");
-
-    //     dai.transferFrom(msg.sender, address(this), _amountA);
-
-    //     link.transfer(msg.sender , _amountB);
-
-    //     emit SwapSuccessful(msg.sender, _amountA , _amountB);
-
-    // }
+  
 
  function swapDaiLink(uint256 _amountA) external {
         require(msg.sender != address(0), "address zero detected");
@@ -235,27 +136,6 @@ contract SwapContract {
         emit SwapSuccessful(msg.sender, _amountA , _amountB);
 
     }
-
-    // function swapDaiEth(uint256 _amountA) external {
-    //     require(msg.sender != address(0), "address zero detected");
-
-    //     require(_amountA > 0 , "Can't exchange zero amount");
-
-    //     require(dai.balanceOf(msg.sender) >= _amountA, "Insufficient Balance");
-
-    //     uint _amountB = 50;
-        
-
-    //     require(weth.balanceOf(address(this)) >= _amountB, "Not enough tokenB");
-
-    //     dai.transferFrom(msg.sender, address(this), _amountA);
-
-    //     weth.transfer(msg.sender , _amountB);
-
-    //             emit SwapSuccessful(msg.sender, _amountA , _amountB);
-
-
-    // }
 
     function swapDaiEth(uint256 _amountA) external {
         require(msg.sender != address(0), "address zero detected");
@@ -313,5 +193,6 @@ contract SwapContract {
     }
 
 }
+
 
  
