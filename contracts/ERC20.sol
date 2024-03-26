@@ -4,47 +4,39 @@ pragma solidity ^0.8.20;
 
 import "../contracts/interface/IERC20.sol";
 
-contract ERC20 is IERC20  {
-        string name;
+contract ERC20 is IERC20 {
+    string name;
 
-        string symbol;
+    string symbol;
 
-        uint8 decimal;
+    uint8 decimal;
 
-        address owner; 
+    address owner;
 
-        uint256 totalSupply;
+    uint256 totalSupply;
 
-        mapping(address => uint256) balances;
+    mapping(address => uint256) balances;
 
-        mapping(address => mapping(address => uint256)) allowances;
+    mapping(address => mapping(address => uint256)) allowances;
 
-        constructor(string memory _name, string memory _symbol, uint8 _decimals){
+    constructor(string memory _name, string memory _symbol, uint8 _decimals) {
+        name = _name;
 
-            name = _name;
+        symbol = _symbol;
 
-            symbol = _symbol;
+        owner = msg.sender;
 
-            owner = msg.sender;
-
-            decimal = _decimals;
-
-        }
-
-     
-
-     function onlyOwner() private view {
-        require(
-            msg.sender ==owner,
-            "Only Onwer can perform this transaction"
-        );
+        decimal = _decimals;
     }
 
- 
+    function onlyOwner() private view {
+        require(msg.sender == owner, "Only Onwer can perform this transaction");
+    }
+
     /**
      * @dev See {IERC20-balanceOf}.
      */
-    function balanceOf(address account) public view  returns (uint256) {
+    function balanceOf(address account) public view returns (uint256) {
         return balances[account];
     }
 
@@ -56,20 +48,14 @@ contract ERC20 is IERC20  {
      * - `to` cannot be the zero address.
      * - the caller must have a balance of at least `value`.
      */
-    function transfer(
-        address _to,
-        uint256 _value
-    ) public  returns (bool) {
+    function transfer(address _to, uint256 _value) public returns (bool) {
         require(
             msg.sender != address(0),
             "Address zero cannot make a transfer"
         );
-        require(
-        balances[msg.sender] > _value,
-            "You don't have enough balance"
-        );
-        balances[msg.sender] =balances[msg.sender] - _value;
-        balances[_to] =balances[_to] + _value;
+        require(balances[msg.sender] > _value, "You don't have enough balance");
+        balances[msg.sender] = balances[msg.sender] - _value;
+        balances[_to] = balances[_to] + _value;
         return true;
     }
 
@@ -79,7 +65,7 @@ contract ERC20 is IERC20  {
     function allowance(
         address _owner,
         address _spender
-    ) public view  returns (uint256) {
+    ) public view returns (uint256) {
         return allowances[_owner][_spender];
     }
 
@@ -95,7 +81,7 @@ contract ERC20 is IERC20  {
      */
     function approve(address _spender, uint256 _value) public returns (bool) {
         require(
-        balances[msg.sender] >= _value,
+            balances[msg.sender] >= _value,
             "You don't have enough token to allocate"
         );
         allowances[msg.sender][_spender] = _value;
@@ -126,12 +112,12 @@ contract ERC20 is IERC20  {
         require(_from != address(0), "Address zero cannot make a transfer");
         require(_from != _to, "You can't transfer to yourself");
         require(
-        allowances[_from][_to] >= _value,
+            allowances[_from][_to] >= _value,
             "You allocation is not enough, Message the owner for more allocations"
         );
-        balances[_from] =balances[_from] - _value;
-        allowances[_from][_to] =allowances[_from][_to] - _value;
-        balances[_to] =balances[_to] + _value;
+        balances[_from] = balances[_from] - _value;
+        allowances[_from][_to] = allowances[_from][_to] - _value;
+        balances[_to] = balances[_to] + _value;
         return true;
     }
 
@@ -144,13 +130,12 @@ contract ERC20 is IERC20  {
      * NOTE: This function is not , {_update} should be overridden instead.
      */
     function mint(address _to, uint256 _value) external {
-
         require(_to != address(0), "Invalid address");
 
         require(totalSupply + _value >= totalSupply, "Overflow error");
 
-        balances[_to] =balances[_to] + _value;
+        balances[_to] = balances[_to] + _value;
 
-        totalSupply =totalSupply + _value;
+        totalSupply = totalSupply + _value;
     }
 }
