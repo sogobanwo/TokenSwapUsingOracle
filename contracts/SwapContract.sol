@@ -51,7 +51,7 @@ contract SwapContract {
 
         uint _amountB = uint(getDerivedPrice(eth_usd, dai_usd, 18));
 
-        require(dai.balanceOf(address(this)) >= _amountB, "Not enough tokenB");
+        require(dai.balanceOf(address(this)) >= _amountB, "Not enough token Equivalent in contract");
 
         weth.transferFrom(msg.sender, address(this), _amountA);
 
@@ -69,7 +69,7 @@ contract SwapContract {
 
         uint _amountB = uint(getDerivedPrice(eth_usd, link_usd, 18));
 
-        require(link.balanceOf(address(this)) >= _amountB, "Not enough tokenB");
+        require(link.balanceOf(address(this)) >= _amountB, "Not enough token Equivalent in contract");
 
         weth.transferFrom(msg.sender, address(this), _amountA);
 
@@ -87,7 +87,7 @@ contract SwapContract {
 
         uint _amountB = uint(getDerivedPrice(link_usd, dai_usd, 18));
 
-        require(dai.balanceOf(address(this)) >= _amountB, "Not enough tokenB");
+        require(dai.balanceOf(address(this)) >= _amountB, "Not enough token Equivalent in contract");
 
         link.transferFrom(msg.sender, address(this), _amountA);
 
@@ -105,7 +105,7 @@ contract SwapContract {
 
         uint _amountB = uint(getDerivedPrice(link_usd, eth_usd, 18));
 
-        require(weth.balanceOf(address(this)) >= _amountB, "Not enough tokenB");
+        require(weth.balanceOf(address(this)) >= _amountB, "Not enough token Equivalent in contract");
 
         link.transferFrom(msg.sender, address(this), _amountA);
 
@@ -123,7 +123,7 @@ contract SwapContract {
 
         uint _amountB = uint(getDerivedPrice(dai_usd, link_usd, 18));
 
-        require(link.balanceOf(address(this)) >= _amountB, "Not enough tokenB");
+        require(link.balanceOf(address(this)) >= _amountB, "Not enough token Equivalent in contract");
 
         dai.transferFrom(msg.sender, address(this), _amountA);
 
@@ -141,7 +141,7 @@ contract SwapContract {
 
         uint _amountB = uint(getDerivedPrice(dai_usd, eth_usd, 18));
 
-        require(weth.balanceOf(address(this)) >= _amountB, "Not enough tokenB");
+        require(weth.balanceOf(address(this)) >= _amountB, "Not enough token Equivalent in contract");
 
         dai.transferFrom(msg.sender, address(this), _amountA);
 
